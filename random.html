@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Checklist Table</title>
+    <link rel="stylesheet" href="./checkliststyle.css" />
+</head>
+
+<body>
+    <div>
+        <table cellspacing="0" rules="all" border="1" id="Table1" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Bin Name</th>
+                    <th>Current Fill Level</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody id="ch-table-body"></tbody>
+
+        </table>
+    </div>
+    <br />
+    <input id="btnGet" type="button" value="Get Selected" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        const chTableBody = document.getElementById("ch-table-body");
+
+        function loadCheckListTable() {
+            fetch("http://localhost:4546/ts_data/dashboard")
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data)
+                    console.log("hi")
+
+                    chTableBody.innerHTML = "";
+                    for (const bin of data) {
+                        binName = bin.name;
+                        fillLevel = bin.lastfill;
+                        console.log(fillLevel)
+
+                        chTableBody.innerHTML += `
+                <tr>
+                    <td>${binName}</td>
+                    <td>${fillLevel}</td>
+                    <td><input type="checkbox" style="width:30px; height:30px; border:solid"/></td>
+                </tr>
+                `
+                    }
+                })
+        }
+
+        loadCheckListTable()
+
+        $(function () {
+            //Assign Click event to Button.
+            $("#btnGet").click(function () {
+                var message = "Id Name                  Country\n";
+
+                //Loop through all checked CheckBoxes in GridView.
+                $("#Table1 input[type=checkbox]:checked").each(function () {
+                    var row = $(this).closest("tr")[0];
+                    message += row.cells[0].innerHTML;
+                    message += "   " + row.cells[1].innerHTML;
+                    message += "\n";
+                });
+
+                //Display selected Row data in Alert Box.
+                alert(message);
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

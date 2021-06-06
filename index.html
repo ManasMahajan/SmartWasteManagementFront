@@ -111,6 +111,14 @@
             <span>Manage Bins</span>
           </a>
         </li>
+        <li>
+          <a href="mnge_trucks.html">
+            <svg>
+              <use xlink:href="#collection"></use>
+            </svg>
+            <span>Manage Trucks</span>
+          </a>
+        </li>
         <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
           <svg aria-hidden="true">
             <use xlink:href="#collapse"></use>
@@ -121,7 +129,9 @@
     </nav>
   </header>
   <section class="page-content">
-    <button class="gnrt-rte-btn">Generate Route</button>
+    <button id="gnrt-rte-btn" class="gnrt-rte-btn">
+      <a href="generate_route.html">Generate Route</a>
+    </button>
     <div class="table-responsive">
       <table class="main-table">
         <thead>
@@ -129,9 +139,7 @@
             <th>Index</th>
             <th>Bin Name</th>
             <th>Fill Level</th>
-            <th>Status</th>
             <th>Last Update Time</th>
-            <th>Location</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -151,23 +159,29 @@
 
     let count = 1;
     function loadTable() {
-      fetch("http://localhost:4546/ts_data")
+      fetch("http://localhost:4546/ts_data/dashboard")
         .then((res) => res.json())
         .then((data) => {
           tableBody.innerHTML = "";
           for (const datum of data) {
-            binId = datum.binId;
-            binName = datum.binName;
-            timestamp = datum.timestamp;
-            fillLevel = datum.fillLevel;
+            binName = datum.name;
+            timestamp = datum.lasttime;
+            fillLevel = datum.lastfill;
+            var temp = timestamp.toString()
+            const year = temp.slice(0, 4)
+            const month = temp.slice(4, 6)
+            const day_of_month = temp.slice(6, 8)
+            const hr = temp.slice(8, 10)
+            const min = temp.slice(10, 12)
+            const date = day_of_month + "-" + month + "-" + year + " at " + hr + ":" + min
+
 
             tableBody.innerHTML += `
                 <tr>
                     <td>${count}</td>
                     <td>${binName}</td>
                     <td>${fillLevel}</td>
-                    <td>${"full"}</td>
-                    <td>${timestamp}</td>
+                    <td>${date}</td>
                 </tr>
                 `;
             count++;

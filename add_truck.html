@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Add Bin</title>
+    <title>Add Truck</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="https://kit.fontawesome.com/fbca7d90a4.js" crossorigin="anonymous"></script>
 </head>
@@ -103,12 +103,20 @@
                         <span>Predictions</span>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
                         </svg>
                         <span>Manage Bins</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="mnge_trucks.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Trucks</span>
                     </a>
                 </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
@@ -121,37 +129,67 @@
         </nav>
     </header>
     <section class="page-content">
-        <a href="mnge_bins.html"><i class="fas fa-arrow-left"></i>Go Back</a>
-        <form id="add-bin-form">
+        <a href="mnge_trucks.html"><i class="fas fa-arrow-left"></i>Go Back</a>
+        <form id="add-truck-form">
             <div>
-                <label for="name">Bin Name</label>
-                <input type="text" name="name" id="name" />
+                <label for="RegistrationNumber">Registration Number</label>
+                <input type="text" name="RegistrationNumber" id="RegistrationNumber" />
             </div>
             <div>
-                <label for="location">Bin Location</label>
-                <input type="text" name="location" id="location" />
+                <label for="Name">Truck Name</label>
+                <input type="text" name="Name" id="Name" />
             </div>
             <div>
-                <label for="height">Bin Height</label>
-                <input type="text" name="height" id="height" />
+                <label for="Model">Truck Model</label>
+                <input type="text" name="Model" id="Model" />
             </div>
             <div>
-                <label for="volume">Bin Volume</label>
-                <input type="text" name="volume" id="volume" />
+                <label for="Capacity">Truck Capacity</label>
+                <input type="text" name="Capacity" id="Capacity" />
             </div>
             <div>
-                <label for="lat">Bin Latitude</label>
-                <input type="text" name="lat" id="lat" />
-            </div>
-            <div>
-                <label for="lng">Bin Longitude</label>
-                <input type="text" name="lng" id="lng" />
+                <label for="CostPerUnitDistance">Cost Per Km</label>
+                <input type="text" name="CostPerUnitDistance" id="CostPerUnitDistance" />
             </div>
         </form>
-        <button id="add-bin-btn">Add Bin</button>
+        <button id="add-truck-btn">Add Truck</button>
     </section>
     <script src="./script.js"></script>
-    <script src="./client.js"></script>
+    <script>
+        const addTruckBtn = document.getElementById("add-truck-btn");
+        addTruckBtn.addEventListener("click", () => {
+            const truckRegNumber = document.getElementById("RegistrationNumber").value;
+            const truckModel = document.getElementById("Model").value
+            const truckName = document.getElementById("Name").value
+            const truckCapacity = document.getElementById("Capacity").value
+            const truckCost = document.getElementById("CostPerUnitDistance").value
+
+            const data = {
+                RegistrationNumber: truckRegNumber,
+                Model: truckModel,
+                Name: truckName,
+                Capacity: truckCapacity,
+                CostPerUnitDistance: truckCost
+            }
+            console.log(truckName)
+
+            fetch("http://localhost:4548/truck", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("success:", data)
+                })
+                .catch((error) => {
+                    console.error("Error:", error)
+                })
+            loadTable();
+        })
+    </script>
 </body>
 
 </html>

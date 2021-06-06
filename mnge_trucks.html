@@ -3,9 +3,18 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Add Bin</title>
+    <title>Manage Trucks</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="https://kit.fontawesome.com/fbca7d90a4.js" crossorigin="anonymous"></script>
+    <style>
+        .hide {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 1px;
+            height: 1px;
+        }
+    </style>
 </head>
 
 <body>
@@ -103,12 +112,20 @@
                         <span>Predictions</span>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
                         </svg>
                         <span>Manage Bins</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="mnge_trucks.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Trucks</span>
                     </a>
                 </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
@@ -121,37 +138,80 @@
         </nav>
     </header>
     <section class="page-content">
-        <a href="mnge_bins.html"><i class="fas fa-arrow-left"></i>Go Back</a>
-        <form id="add-bin-form">
-            <div>
-                <label for="name">Bin Name</label>
-                <input type="text" name="name" id="name" />
+        <iframe name="hiddenFrame" class="hide" id="hiddenFrame"></iframe>
+
+
+        <div id="add-truck-link">
+            <a href="add_truck.html">Add Truck</a>
+        </div>
+
+        <div class="edit-modal" id="edit-modal">
+            <div class="modal-header">
+                <div class="modal-title">Update Truck</div>
+                <button data-close-button class="close-button">&times;</button>
             </div>
-            <div>
-                <label for="location">Bin Location</label>
-                <input type="text" name="location" id="location" />
+            <div class="modal-body">
             </div>
-            <div>
-                <label for="height">Bin Height</label>
-                <input type="text" name="height" id="height" />
-            </div>
-            <div>
-                <label for="volume">Bin Volume</label>
-                <input type="text" name="volume" id="volume" />
-            </div>
-            <div>
-                <label for="lat">Bin Latitude</label>
-                <input type="text" name="lat" id="lat" />
-            </div>
-            <div>
-                <label for="lng">Bin Longitude</label>
-                <input type="text" name="lng" id="lng" />
-            </div>
-        </form>
-        <button id="add-bin-btn">Add Bin</button>
+        </div>
+        <div id="overlay"></div>
+
+
+        <div class="table-responsive">
+            <table class="main-table">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Registration Number</th>
+                        <th>Truck Name</th>
+                        <th>Model</th>
+                        <th>Capacity</th>
+                        <th>Cost/Km</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
     </section>
     <script src="./script.js"></script>
-    <script src="./client.js"></script>
+    <script>
+        const tableBody = document.getElementById("table-body");
+
+        let count = 1;
+        function loadTable() {
+            fetch("http://localhost:4548/")
+                .then((res) => res.json())
+                .then((data) => {
+                    tableBody.innerHtml = "";
+                    count = 1;
+                    for (const truck of data) {
+                        truckRegNumber = truck.RegistrationNumber;
+                        truckName = truck.Name;
+                        truckModel = truck.Model;
+                        truckCapacity = truck.Capacity;
+                        truckCostPerUnitDistance = truck.CostPerUnitDistance;
+                        truckId = truck._id;
+
+                        tableBody.innerHTML += `
+                        <tr data-id="${truckId}">
+                            <td>${count}</td>
+                            <td>${truckRegNumber}</td>
+                            <td>${truckName}</td>
+                            <td>${truckModel}</td>
+                            <td>${truckCapacity}</td>
+                            <td>${truckCostPerUnitDistance}</td>
+                            <td>
+                                <button id="btn-remove-truck" onclick="deleteTruck(this)" style="color:#009879; border:none;"><i class="far fa-minus-square"></i></button>
+                                <button id="btn-update-truck" onclick ="updateTruck(this)" data-modal-target="#edit-modal" style="color:#009879; border:none;"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        `;
+                        count++;
+                    }
+                })
+        }
+        loadTable();
+    </script>
 </body>
 
 </html>

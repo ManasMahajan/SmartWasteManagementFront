@@ -72,6 +72,7 @@
                 d="M6.57,1A5.57,5.57,0,1,1,1,6.57,5.57,5.57,0,0,1,6.57,1m0-1a6.57,6.57,0,1,0,6.57,6.57A6.57,6.57,0,0,0,6.57,0Z" />
             <rect x="11.84" y="9.87" width="2" height="5.93" transform="translate(-5.32 12.84) rotate(-45)" />
         </symbol>
+        
     </svg>
     <header class="page-header">
         <nav>
@@ -103,12 +104,20 @@
                         <span>Predictions</span>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
                         </svg>
                         <span>Manage Bins</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mnge_trucks.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Trucks</span>
                     </a>
                 </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
@@ -120,38 +129,32 @@
             </ul>
         </nav>
     </header>
+
     <section class="page-content">
-        <a href="mnge_bins.html"><i class="fas fa-arrow-left"></i>Go Back</a>
-        <form id="add-bin-form">
-            <div>
-                <label for="name">Bin Name</label>
-                <input type="text" name="name" id="name" />
-            </div>
-            <div>
-                <label for="location">Bin Location</label>
-                <input type="text" name="location" id="location" />
-            </div>
-            <div>
-                <label for="height">Bin Height</label>
-                <input type="text" name="height" id="height" />
-            </div>
-            <div>
-                <label for="volume">Bin Volume</label>
-                <input type="text" name="volume" id="volume" />
-            </div>
-            <div>
-                <label for="lat">Bin Latitude</label>
-                <input type="text" name="lat" id="lat" />
-            </div>
-            <div>
-                <label for="lng">Bin Longitude</label>
-                <input type="text" name="lng" id="lng" />
-            </div>
-        </form>
-        <button id="add-bin-btn">Add Bin</button>
+        <div class="table-responsive">
+            <table class="checklist-table">
+                <thead>
+                    <tr>
+                        <th>Bin Name</th>
+                        <th>Current Fill Level</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody id="ch-table-body"></tbody>
+            </table>
+        </div>
+        <input id="get-route-btn" type="button" value="Get Route" style="font-size: large;" />
     </section>
     <script src="./script.js"></script>
-    <script src="./client.js"></script>
+    <script src="./generate_route_script.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#get-route-btn").click(function () {
+
+            })
+        })
+    </script>
 </body>
 
 </html>
