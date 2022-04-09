@@ -1,0 +1,22 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "waste management webapp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManasMahajan/GarbageCollection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManasMahajan/GarbageCollection/issues"
+  },
+  "homepage": "https://github.com/ManasMahajan/GarbageCollection#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.4.5"
+  }
+}

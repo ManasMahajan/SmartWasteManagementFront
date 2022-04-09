@@ -2,13 +2,13 @@ require(["esri/config", "esri/Map", "esri/views/MapView", "esri/Graphic", "esri/
     esriConfig.apiKey = "AAPKa9d2f9afc71c4b5cb9ed525a985bbf951x9Ot4hDljM87Tf5HbRUNpCgsenHDpi6PqyTG1aPMsEQLwYbdY2yMtATIDQnDJLq";
 
     const map = new Map({
-        basemap: "streets"
+        basemap: "arcgis-navigation"
     })
 
     const view = new MapView({
         map: map,
         center: [73.863739, 18.530108],
-        zoom: 10,
+        zoom: 12,
         container: "viewDiv"
     });
 

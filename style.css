@@ -90,7 +90,9 @@
     background-color: #1d2636;
 }
 
-.gnrt-rte-btn {
+.gnrt-rte-btn,
+#get-route-btn,
+#send-email-button {
     color: #ffffff;
     background-color: #009879;
     padding: 0.45rem;
@@ -105,7 +107,8 @@
 }
 
 .main-table,
-.checklist-table {
+.checklist-table,
+.checklist-table2 {
     border-collapse: collapse;
     margin: 25px 0;
     min-width: 400px;
@@ -115,7 +118,8 @@
 }
 
 .main-table thead tr,
-.checklist-table thead tr {
+.checklist-table thead tr,
+.checklist-table2 thead tr {
     background-color: #009879;
     color: #ffffff;
     font-weight: bold;
@@ -124,23 +128,28 @@
 .main-table th,
 .main-table td,
 .checklist-table th,
-.checklist-table td {
+.checklist-table td,
+.checklist-table2 th,
+.checklist-table2 td {
     padding: 12px 15px;
     border: 1px solid #ccc;
 }
 
 .main-table tbody tr,
-.checklist-table tbody tr {
+.checklist-table tbody tr,
+.checklist-table2 tbody tr {
     border-bottom: 1px solid #dddddd;
 }
 
 .main-table tbody tr:nth-of-type(even),
-.checklist-table tbody tr:nth-of-type(even) {
+.checklist-table tbody tr:nth-of-type(even),
+.checklist-table2 tbody tr:nth-of-type(even) {
     background-color: #dddddd;
 }
 
 .main-table tbody tr:last-of-type,
-.checklist-table tbody tr:last-of-type {
+.checklist-table tbody tr:last-of-type,
+.checklist-table2 tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 

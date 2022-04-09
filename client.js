@@ -27,6 +27,7 @@ function loadTable() {
                         </td>
                     </tr>
                 `;
+                count++;
             }
         });
 }

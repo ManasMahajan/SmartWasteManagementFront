@@ -4,7 +4,19 @@
 <head>
     <meta charset="UTF-8" />
     <title>Add Bin</title>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 1500px;
+            width: 1500px;
+        }
+    </style>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.19/"></script>
     <script src="https://kit.fontawesome.com/fbca7d90a4.js" crossorigin="anonymous"></script>
 </head>
 
@@ -72,7 +84,7 @@
                 d="M6.57,1A5.57,5.57,0,1,1,1,6.57,5.57,5.57,0,0,1,6.57,1m0-1a6.57,6.57,0,1,0,6.57,6.57A6.57,6.57,0,0,0,6.57,0Z" />
             <rect x="11.84" y="9.87" width="2" height="5.93" transform="translate(-5.32 12.84) rotate(-45)" />
         </symbol>
-        
+
     </svg>
     <header class="page-header">
         <nav>
@@ -97,14 +109,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#0">
-                        <svg>
-                            <use xlink:href="#trends"></use>
-                        </svg>
-                        <span>Predictions</span>
-                    </a>
-                </li>
-                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
@@ -120,6 +124,14 @@
                         <span>Manage Trucks</span>
                     </a>
                 </li>
+                <li>
+                    <a href="mnge_drivers.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Drivers</span>
+                    </a>
+                </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
                     <svg aria-hidden="true">
                         <use xlink:href="#collapse"></use>
@@ -131,8 +143,71 @@
     </header>
 
     <section class="page-content">
+        <div style="font-size: 30px;">Choose bins to service</div>
         <div class="table-responsive">
-            <table class="checklist-table">
+            <!--<table class="checklist-table">
+                <thead>
+                    <tr>
+                        <th>Bin Name</th>
+                        <th>Current Fill Level</th>
+                        <th>Predicted Fill Level</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Parihar Chowk Bin</td>
+                        <td>33</td>
+                        <td>35</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>Shashwat Hospital Bin</td>
+                        <td>68</td>
+                        <td>76</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>Sanewadi Bin</td>
+                        <td>53</td>
+                        <td>53</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>Saraswat Bank Bin</td>
+                        <td>86</td>
+                        <td>95</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>NCL Colony Bin</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>Varsha Park Bin</td>
+                        <td>12</td>
+                        <td>20</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>Someshwar Temple Bin</td>
+                        <td>66</td>
+                        <td>72</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                    <tr>
+                        <td>IDBI Bank Bin</td>
+                        <td>
+                            55
+                        </td>
+                        <td>56</td>
+                        <td><input type="checkbox" style="width:30px; height:30px; border:solid" /></td>
+                    </tr>
+                </tbody>
+            </table>-->
+            <table id="binstable" class="checklist-table">
                 <thead>
                     <tr>
                         <th>Bin Name</th>
@@ -142,19 +217,54 @@
                 </thead>
                 <tbody id="ch-table-body"></tbody>
             </table>
-        </div>
-        <input id="get-route-btn" type="button" value="Get Route" style="font-size: large;" />
-    </section>
-    <script src="./script.js"></script>
-    <script src="./generate_route_script.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $("#get-route-btn").click(function () {
+            <div style="font-size:30px;">Choose Trucks</div>
 
-            })
-        })
+
+            <table id="truckstable" class="checklist-table2">
+                <thead>
+                    <tr>
+                        <th>Registration Number</th>
+                        <th>Truck Name</th>
+                        <th>Capacity</th>
+                        <th>Truck Cost</th>
+                        <th>Parking Location</th>
+                        <th>Driver</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody id="ch-table2-body"></tbody>
+            </table>
+        </div>
+        <input id="get-route-btn" type="button" value="Next" style="font-size: large;" />
+        <div id="viewDiv"></div>
+        <div style="font-size:30px;">Routing Summary</div>
+        <div id="summary-table-div" style="display:none">
+            <table class="main-table">
+                <thead>
+                    <tr>
+                        <th>Route Name</th>
+                        <th>Route Distance</th>
+                        <th>Total Time</th>
+                    </tr>
+                </thead>
+                <tbody id="routeSummary">
+                </tbody>
+            </table>
+        </div>
+        <button id="send-mails-button">Send Mails</button>
+    </section>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("user_RHVCCa7h1bact43pqw9nL");
+        })();
     </script>
+    <script src="./script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="./gen_route.js"></script>
+
+
 </body>
 
 </html>

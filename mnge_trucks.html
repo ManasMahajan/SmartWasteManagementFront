@@ -105,14 +105,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#0">
-                        <svg>
-                            <use xlink:href="#trends"></use>
-                        </svg>
-                        <span>Predictions</span>
-                    </a>
-                </li>
-                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
@@ -126,6 +118,14 @@
                             <use xlink:href="#collection"></use>
                         </svg>
                         <span>Manage Trucks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mnge_drivers.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Drivers</span>
                     </a>
                 </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
@@ -165,6 +165,7 @@
                         <th>Truck Name</th>
                         <th>Model</th>
                         <th>Capacity</th>
+                        <th>Parking Location</th>
                         <th>Cost/Km</th>
                         <th>Action</th>
                     </tr>
@@ -182,7 +183,7 @@
             fetch("http://localhost:4548/")
                 .then((res) => res.json())
                 .then((data) => {
-                    tableBody.innerHtml = "";
+                    tableBody.innerHTML = "";
                     count = 1;
                     for (const truck of data) {
                         truckRegNumber = truck.RegistrationNumber;
@@ -191,6 +192,7 @@
                         truckCapacity = truck.Capacity;
                         truckCostPerUnitDistance = truck.CostPerUnitDistance;
                         truckId = truck._id;
+                        truckParkLocation = truck.ParkingName
 
                         tableBody.innerHTML += `
                         <tr data-id="${truckId}">
@@ -199,6 +201,7 @@
                             <td>${truckName}</td>
                             <td>${truckModel}</td>
                             <td>${truckCapacity}</td>
+                            <td>${truckParkLocation}</td>
                             <td>${truckCostPerUnitDistance}</td>
                             <td>
                                 <button id="btn-remove-truck" onclick="deleteTruck(this)" style="color:#009879; border:none;"><i class="far fa-minus-square"></i></button>
@@ -211,6 +214,89 @@
                 })
         }
         loadTable();
+
+        //delete
+        function deleteTruck(button) {
+            const truckId = button.parentElement.parentElement.dataset.id;
+            let url = "http://localhost:4548/" + truckId;
+            fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: null
+            })
+                .then(res => {
+                    return res.json()
+                })
+                .then(data => {
+                    console.log(data);
+                    loadTable()
+                })
+        }
+
+        //update
+        const closeModalButtons = document.querySelectorAll('[data-close-button]')
+        const overlay = document.getElementById('overlay')
+        const iframe = document.getElementById("hiddenFrame")
+        function updateTruck(button) {
+            const modal = document.querySelector(button.dataset.modalTarget)
+            const truckId = button.parentElement.parentElement.dataset.id;
+            const geturl = "http://localhost:4548/" + truckId;
+            const patchurl = "http://localhost:4548/update/" + truckId;
+            fetch(geturl)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (modal == null) return
+                    modal.classList.add('activate')
+                    overlay.classList.add('activate')
+                    const modalBody = document.querySelector(".modal-body")
+                    var truckRegNumber = data.RegistrationNumber;
+                    var truckName = data.Name;
+                    var truckModel = data.Model;
+                    var truckCapacity = data.Capacity
+                    var truckCost = data.CostPerUnitDistance
+
+                    modalBody.innerHTML = `
+                    <form target="_blank" action="${patchurl}" method="POST">
+                        <div>
+                            Truck Registration Number: ${truckRegNumber}
+                        </div>
+                        <div>
+                            <label>Truck Name</label>
+                            <input type="text" name="Name" id="Name" value="${truckName}">
+                        </div>
+                        <div>
+                            <label>Truck Model</label>
+                            <input type="text" name="Model" id="Model" value="${truckModel}">
+                        </div>
+                        <div>
+                            <label>Truck Capacity</label>
+                            <input type="text" name="Capacity" id="Capacity" value="${truckCapacity}">
+                        </div>
+                        <div>
+                            <label>Cost/Km</label>
+                            <input type="text" name="CostPerUnitDistance" id="CostPerUnitDistance" value="${truckCost}">
+                        </div>
+                        <input onclick="window.location.href='mnge_trucks.html';"  type="submit" value="Submit" />
+                    </form>
+                    `
+                })
+        }
+
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.edit-modal')
+                closeModal(modal)
+            })
+        })
+
+        function closeModal(modal) {
+            if (modal == null) return
+            modal.classList.remove('activate')
+            overlay.classList.remove('activate')
+        }
+
     </script>
 </body>
 

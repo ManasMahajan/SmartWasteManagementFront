@@ -96,14 +96,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#0">
-                        <svg>
-                            <use xlink:href="#trends"></use>
-                        </svg>
-                        <span>Predictions</span>
-                    </a>
-                </li>
-                <li>
                     <a href="mnge_bins.html">
                         <svg>
                             <use xlink:href="#collection"></use>
@@ -117,6 +109,14 @@
                             <use xlink:href="#collection"></use>
                         </svg>
                         <span>Manage Trucks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mnge_drivers.html">
+                        <svg>
+                            <use xlink:href="#collection"></use>
+                        </svg>
+                        <span>Manage Drivers</span>
                     </a>
                 </li>
                 <button class="collapse-btn" aria-expanded="true" aria-label="collapse menu">
@@ -148,6 +148,18 @@
                 <input type="text" name="Capacity" id="Capacity" />
             </div>
             <div>
+                <label for="ParkingLatitude">Parking Location Latitude</label>
+                <input type="text" name="ParkingLatitude" id="ParkingLatitude" />
+            </div>
+            <div>
+                <label for="ParkingLongitude">Parking Location Longitude</label>
+                <input type="text" name="ParkingLongitude" id="ParkingLongitude" />
+            </div>
+            <div>
+                <label for="ParkingName">Parking Location Name</label>
+                <input type="text" name="ParkingName" id="ParkingName" />
+            </div>
+            <div>
                 <label for="CostPerUnitDistance">Cost Per Km</label>
                 <input type="text" name="CostPerUnitDistance" id="CostPerUnitDistance" />
             </div>
@@ -163,13 +175,19 @@
             const truckName = document.getElementById("Name").value
             const truckCapacity = document.getElementById("Capacity").value
             const truckCost = document.getElementById("CostPerUnitDistance").value
+            const truckLat = document.getElementById("ParkingLatitude").value
+            const truckLong = document.getElementById("ParkingLongitude").value
+            const truckParkName = document.getElementById("ParkingName").value
 
             const data = {
                 RegistrationNumber: truckRegNumber,
                 Model: truckModel,
                 Name: truckName,
                 Capacity: truckCapacity,
-                CostPerUnitDistance: truckCost
+                CostPerUnitDistance: truckCost,
+                ParkingLatitude: truckLat,
+                ParkingLongitude: truckLong,
+                ParkingName: truckParkName
             }
             console.log(truckName)
 

@@ -14,6 +14,8 @@ require(["esri/config", "esri/Map", "esri/views/MapView", "esri/Graphic", "esri/
 
     const graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
+    var graphics = []
+    var binsList = []
 
     fetch("http://localhost:4545/")
         .then((res) => res.json())
@@ -25,55 +27,18 @@ require(["esri/config", "esri/Map", "esri/views/MapView", "esri/Graphic", "esri/
                 binName = bin.name;
                 binId = bin._id;
 
-                console.log(latitude)
-                console.log(longitude)
-
-
-                const url = "http://localhost:4546/ts_data/fill_level/" + binId;
-                fetch(url)
-                    .then((res) => res.json())
-                    .then((ts_data) => {
-
-                        fl = ts_data[0].fillLevel
-
-                        const point = {
-                            type: "point",
-                            longitude: longitude,
-                            latitude: latitude
-                        }
-
-                        const simpleMarkerSymbol = {
-                            type: "simple-marker",
-                            color: [226, 119, 40],
-                            outline: {
-                                color: [255, 255, 255],
-                                width: 1
-                            }
-                        }
-
-                        const popupTemplate = {
-                            title: "{Name}",
-                            content: "{Description}"
-                        }
-                        const attributes = {
-                            Name: binName,
-                            Description: fl
-                        }
-
-                        const pointGraphic = new Graphic({
-                            geometry: point,
-                            symbol: simpleMarkerSymbol,
-                            attributes: attributes,
-                            popupTemplate: popupTemplate
-                        });
-                        graphicsLayer.add(pointGraphic);
-
-                    })
-
-
-
+                binsList.push({
+                    Id: binId,
+                    lat: latitude,
+                    long: longitude,
+                    name: binName
+                })
             }
-        })
+        });
+
+    console.log(binsList)
+
+    fetch("http://localhost:454")
 
     /*const point = {
         type: "point",
